@@ -26,8 +26,6 @@ def user_input(course):
         return 2
     elif course == 'C':
         return 1
-    else:
-        st.text('An error occurred. Please enter the correct grade in capital letter.')
 
 
 # Load a CSV file
@@ -89,27 +87,33 @@ def k_nearest_neighbours(train, test, num_neighbours):
 # For user input parameters
 st.write('Please enter the grade for each course in capital letter. (For example: A+)')
 st.write('The range allows only from C to A+.')
-elc120 = st.text_input('ELC121', 'A')
-elc120 = user_input(elc120)
-elc150 = st.text_input('ELC151', 'A-')
-elc150 = user_input(elc150)
-elc230 = st.text_input('ELC231', 'A')
-elc230 = user_input(elc230)
-input = (elc120, elc150, elc230)
 
-# Loading csv file
-dataset = load_csv('dataset.csv')
+try:
+    elc120 = st.text_input('ELC121', 'A')
+    elc150 = st.text_input('ELC151', 'A-')
+    elc230 = st.text_input('ELC231', 'A')
+    elc120 = user_input(elc120)
+    elc150 = user_input(elc150)
+    elc230 = user_input(elc230)
+    input = (elc120, elc150, elc230)
+    # Loading csv file
+    dataset = load_csv('dataset.csv')
 
-# Convert class column to float
-for i in range(len(dataset[0])-1):
-    str_column_to_float(dataset, i)
+    # Convert class column to float
+    for i in range(len(dataset[0]) - 1):
+        str_column_to_float(dataset, i)
 
-# Define K value
-num_neighbours = 9
+    # Define K value
+    num_neighbours = 9
 
-# Predict the input of the result
-result = predict_classification(dataset, input, num_neighbours)
+    # Predict the input of the result
+    result = predict_classification(dataset, input, num_neighbours)
 
-# Displaying the output
-st.subheader('Prediction of MUET Result: ')
-st.write('Band',result)
+    # Displaying the output
+    st.subheader('Prediction of MUET Result: ')
+    st.write('Band', result)
+except:
+    st.error('An error occured. Please make sure your input is correct')
+    pass
+
+
